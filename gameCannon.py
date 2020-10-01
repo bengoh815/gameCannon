@@ -18,14 +18,14 @@ cannonball=turtle.Turtle()
 cannonball.hideturtle()
 cannonball.shape("circle")
 cannonball.penup()
-cannonball.speed(1)
+cannonball.speed(0)
 cannonball.setpos(-570,-270)
 
 # variables
 time=0
 cannonfiring=False
 cannonpower=100
-gravity=9.8
+gravity=-9.8
 vx=abs(cannonpower*cos(cannon.heading()))
 vy=abs(cannonpower*sin(cannon.heading()))
 
@@ -40,7 +40,9 @@ def turn_right():
         cannon.right(2)
 
 def cannonfire():
+    global cannonfiring
     cannonball.showturtle()
+    cannonball.pendown()
     cannonfiring=True
 
 def cannonballupdate():
@@ -48,11 +50,8 @@ def cannonballupdate():
     x = vx*time
     y = vy*time+(0.5*gravity*time*time)
     (cannonx, cannony)=cannonball.position()
-    print(cannonball.position())
     # if cannony<=-280:
     cannonball.goto(x, y)
-    if cannony>-280:
-        cannonfiring=False
     time+=1
 
 
