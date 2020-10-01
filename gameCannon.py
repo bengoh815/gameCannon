@@ -1,4 +1,5 @@
 import turtle
+from math import cos, sin
 
 # screen
 wn=turtle.Screen()
@@ -21,8 +22,12 @@ cannonball.speed(1)
 cannonball.setpos(-570,-270)
 
 # variables
+time=0
 cannonfiring=False
 cannonpower=100
+gravity=9.8
+vx=abs(cannonpower*cos(cannon.heading()))
+vy=abs(cannonpower*sin(cannon.heading()))
 
 
 # functions
@@ -35,10 +40,20 @@ def turn_right():
         cannon.right(2)
 
 def cannonfire():
-    global cannonfiring, cannonpower
     cannonball.showturtle()
     cannonfiring=True
 
+def cannonballupdate():
+    global time, gravity, cannonfiring, vx, vy
+    x = vx*time
+    y = vy*time+(0.5*gravity*time*time)
+    (cannonx, cannony)=cannonball.position()
+    print(cannonball.position())
+    # if cannony<=-280:
+    cannonball.goto(x, y)
+    if cannony>-280:
+        cannonfiring=False
+    time+=1
 
 
 # listen
@@ -52,4 +67,4 @@ wn.onkeypress(cannonfire,"space")
 while True:
     wn.update()
     if cannonfiring==True:
-        # cannonball.goto()
+        cannonballupdate()
