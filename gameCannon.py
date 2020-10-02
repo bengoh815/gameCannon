@@ -21,15 +21,29 @@ cannonball.penup()
 cannonball.speed(0)
 cannonball.goto(-570,-250)
 
+pen=turtle.Turtle()
+pen.speed(0)
+pen.color("black")
+pen.penup()
+pen.hideturtle()
+pen.goto(0,260)
+
 # user select variables
-angle=45
 power=100
 gravity=-9.81
-print_cannonball_travel coordinates=False
+print_cannonball_travel_coordinates=False
+cannon_trail=False
+
+print("Welcome to my ghetto 'game'")
+print("Please select some options:")
+power=int(input("Cannon power: "))
+gravity=-float(input("Gravity: "))
+print_cannonball_travel_coordinates=bool(input("Print travel coordinates(True or False): "))
+cannon_trail=bool(input("Cannonball trail(True or False):"))
+
 
 # computer variables
 time=0
-cannon_trail=False
 cannon_hit=False
 cannon_fired=False
 
@@ -51,15 +65,15 @@ def cannon_fire():
         cannonball.pendown()
 
 def cannonball_update():
-    global angle, time, power, gravity, cannon_hit, print_cannonball_travel
-    x=(power*(cos(radians(angle)))*time)-570
-    y=(power*(sin(radians(angle)))*time+(0.5*gravity*time*time))-250
-    if print_cannonball_travel==True:
+    global time, power, gravity, cannon_hit, print_cannonball_travel_coordinates
+    x=(power*(cos(radians(cannon.heading())))*time)-570
+    y=(power*(sin(radians(cannon.heading())))*time+(0.5*gravity*time*time))-250
+    if print_cannonball_travel_coordinates==True:
         print(x,y)
     if cannonball.ycor()>-251:
         cannonball.goto(x,y)
     else:
-        cannonball.write("Cannonball has hit the ground")
+        pen.write("Cannonball has hit the ground", align="center", font=("Courier", 18, "normal"))
         cannon_hit=True
     time+=0.5
 
