@@ -61,14 +61,14 @@ def cannon_fire():
     global cannon_trail, cannon_fired
     cannon_fired=True
     cannonball.showturtle()
-    if cannon_trail==True:
+    if cannon_trail:
         cannonball.pendown()
 
 def cannonball_update():
     global time, power, gravity, cannon_hit, print_cannonball_travel_coordinates
     x=(power*(cos(radians(cannon.heading())))*time)-570
     y=(power*(sin(radians(cannon.heading())))*time+(0.5*gravity*time*time))-250
-    if print_cannonball_travel_coordinates==True:
+    if print_cannonball_travel_coordinates:
         print(x,y)
     if cannonball.ycor()>-251:
         cannonball.goto(x,y)
