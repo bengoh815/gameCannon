@@ -1,0 +1,84 @@
+# cannon
+cannon=turtle.Turtle()
+cannon.penup()
+cannon.speed(0)
+cannon.setpos(-570,-270)
+cannon.shapesize(2,2)
+
+# cannonball
+cannonball=turtle.Turtle()
+cannonball.hideturtle()
+cannonball.shape("circle")
+cannonball.penup()
+cannonball.speed(0)
+cannonball.setpos(-570,-270)
+
+# variables
+time=0
+angle=45
+cannonfiring=False
+cannonpower=100
+gravity=-9.8
+vx=abs(cannonpower*cos(cannon.heading()))
+vy=abs(cannonpower*sin(cannon.heading()))
+
+
+# functions
+def turn_left():
+    if cannon.heading() < 90:
+        cannon.left(2)
+
+def turn_right():
+    if cannon.heading() > 0:
+        cannon.right(2)
+
+def cannonfire():
+    global cannonfiring
+    cannonball.showturtle()
+    cannonball.pendown()
+    cannonfiring=True
+
+def cannonballupdate():
+    global time, gravity, cannonfiring, vx, vy
+    x = vx*time
+    y = vy*time+(0.5*gravity*time*time)
+    (cannonx, cannony)=cannonball.position()
+    # if cannony<=-280:
+    cannonball.goto(x, y)
+    time+=1
+
+
+# listen
+wn.listen()
+wn.onkeypress(turn_left,"Up")
+wn.onkeypress(turn_right,"Down")
+wn.onkeypress(cannonfire,"space")
+
+
+
+while True:
+    wn.update()
+    if cannonfiring==True:
+        cannonballupdate()
+
+first run
+(7.0710678118654755, 2.1660678118654744)
+(14.142135623730951, -5.477864376269052)
+(21.213203435596427, -22.931796564403573)
+(28.284271247461902, -50.1957287525381)
+(35.35533905932738 ,-87.26966094067265)
+(42.42640687119285 ,-134.15359312880713)
+(49.49747468305833 ,-190.84752531694167)
+(56.568542494923804, -257.3514575050762)
+(63.63961030678928, -333.6653896932107)
+(70.71067811865476, -419.7893218813453)
+(77.78174593052023, -515.7232540694799)
+(84.8528137423857 ,-621.4671862576142)
+(91.92388155425118, -737.0211184457489)
+(98.99494936611666, -862.3850506338833)
+(106.06601717798213, -997.5589828220179)
+(113.13708498984761, -1142.5429150101525)
+(120.20815280171308, -1297.336847198287)
+(127.27922061357856, -1461.9407793864216)
+(134.35028842544403, -1636.3547115745562)
+(141.4213562373095 ,-1820.5786437626907)

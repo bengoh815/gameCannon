@@ -1,5 +1,5 @@
 import turtle
-from math import cos, sin
+from math import cos, sin, radians
 
 # screen
 wn=turtle.Screen()
@@ -10,8 +10,8 @@ wn.setup(1200,600)
 cannon=turtle.Turtle()
 cannon.penup()
 cannon.speed(0)
-cannon.setpos(-570,-270)
-cannon.shapesize(2,2)
+cannon.setpos(-570,-250)
+cannon.shapesize(3,3)
 
 # cannonball
 cannonball=turtle.Turtle()
@@ -19,51 +19,58 @@ cannonball.hideturtle()
 cannonball.shape("circle")
 cannonball.penup()
 cannonball.speed(0)
-cannonball.setpos(-570,-270)
+cannonball.goto(-570,-250)
 
-# variables
+# user select variables
+angle=45
+power=100
+gravity=-9.81
+print_cannonball_travel coordinates=False
+
+# computer variables
 time=0
-cannonfiring=False
-cannonpower=100
-gravity=-9.8
-vx=abs(cannonpower*cos(cannon.heading()))
-vy=abs(cannonpower*sin(cannon.heading()))
+cannon_trail=False
+cannon_hit=False
+cannon_fired=False
 
 
-# functions
-def turn_left():
+# function
+def cannon_turn_left():
     if cannon.heading() < 90:
-        cannon.left(2)
+        cannon.left(1)
 
-def turn_right():
+def cannon_turn_right():
     if cannon.heading() > 0:
-        cannon.right(2)
+        cannon.right(1)
 
-def cannonfire():
-    global cannonfiring
+def cannon_fire():
+    global cannon_trail, cannon_fired
+    cannon_fired=True
     cannonball.showturtle()
-    cannonball.pendown()
-    cannonfiring=True
+    if cannon_trail==True:
+        cannonball.pendown()
 
-def cannonballupdate():
-    global time, gravity, cannonfiring, vx, vy
-    x = vx*time
-    y = vy*time+(0.5*gravity*time*time)
-    (cannonx, cannony)=cannonball.position()
-    # if cannony<=-280:
-    cannonball.goto(x, y)
-    time+=1
-
+def cannonball_update():
+    global angle, time, power, gravity, cannon_hit, print_cannonball_travel
+    x=(power*(cos(radians(angle)))*time)-570
+    y=(power*(sin(radians(angle)))*time+(0.5*gravity*time*time))-250
+    if print_cannonball_travel==True:
+        print(x,y)
+    if cannonball.ycor()>-251:
+        cannonball.goto(x,y)
+    else:
+        cannonball.write("Cannonball has hit the ground")
+        cannon_hit=True
+    time+=0.5
 
 # listen
 wn.listen()
-wn.onkeypress(turn_left,"Up")
-wn.onkeypress(turn_right,"Down")
-wn.onkeypress(cannonfire,"space")
-
+wn.onkeypress(cannon_turn_left,"Up")
+wn.onkeypress(cannon_turn_right,"Down")
+wn.onkeypress(cannon_fire,"space")
 
 
 while True:
     wn.update()
-    if cannonfiring==True:
-        cannonballupdate()
+    if (cannon_fired==True) and (cannon_hit==False):
+        cannonball_update()
